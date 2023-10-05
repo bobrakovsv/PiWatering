@@ -1,0 +1,160 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.0.M3'
+	id 'java'
+	id "org.flywaydb.flyway" version "5.2.4"
+	id 'nu.studer.jooq' version '3.0.3'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'ru.bserg'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/snapshot' }
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-jooq'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-config'
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'com.h2database:h2:1.4.200'
+
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	jooqRuntime 'com.h2database:h2:1.4.200'
+	compile 'org.json:json:20180813'
+	annotationProcessor 'org.projectlombok:lombok'
+	compile 'com.pi4j:pi4j-core:1.2'
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+		exclude group: 'junit', module: 'junit'
+	}
+	testImplementation 'org.springframework.security:spring-security-test'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+flyway {
+	schemas = ['wtr']
+	configurations = ['compile']
+}
+
+jooq {
+	version = '3.12.3'
+	edition = 'OSS'
+	_wtr_(sourceSets.main) {
+		jdbc {
+			driver = 'org.h2.Driver'
+			url = 'jdbc:h2:/C:/bserg/watering/db/wtrr;AUTO_SERVER=TRUE;AUTO_SERVER_PORT=9090;'
+			user = 'bserg'
+			password = 'pw'
+		}
+		generator {
+			name = 'org.jooq.codegen.DefaultGenerator'
+			strategy {
+				name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+				// ...
+			}
+			database {
+				inputSchema = 'WTR'
+				includes = '.*'
+				excludes = 'flyway_schema_history'
+			}
+			generate {
+				javaTimeTypes = true
+				records = true
+				relations = true
+				instanceFields = true
+			}
+			target {
+				packageName = 'ru.bserg.watering.db'
+				directory = 'src/main/java'
+				clean = true
+			}
+		}
+	}
+}
+
+
+tasks.generate_wtr_JooqSchemaSource.with {
+	def out = new ByteArrayOutputStream()
+	javaExecSpec = { JavaExecSpec s ->
+		s.standardOutput = out
+		s.errorOutput = out
+		s.ignoreExitValue = true
+		s.jvmArgs '-Xmx512M'
+	}
+	execResultHandler = { ExecResult r ->
+		if (r.exitValue != 0) {
+			throw new RuntimeException('jOOQ source code generation failed:\n\n' + out.toString())
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Задачи для генерации дистрибутива Vue (frontend) и добавление его в серверную часть spring
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+import org.apache.tools.ant.taskdefs.condition.Os
+
+// Генерация дистрибутива
+task buildFe(type: Exec) {
+	workingDir './vue'
+	String npm
+	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+		npm = 'npm.cmd'
+	} else {
+		environment('PATH', '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin')
+		npm = 'npm'
+	}
+	commandLine npm, 'run', 'build'
+}
+
+// Очистка целевого каталога
+task cleanFe(type: Delete) {
+	delete 'src/main/resources/public'
+}
+
+// Копирование дистрибутива в целевой каталог
+task copyFe(type: Copy) {
+	from( './vue/dist')
+	into( 'src/main/resources/public')
+}
+
+
+// Полная генерация Frontend-а
+task buildFrontend() {
+	dependsOn 'buildFe'
+	dependsOn 'cleanFe'
+	dependsOn 'copyFe'
+	tasks.findByName('cleanFe').mustRunAfter 'buildFe'
+	tasks.findByName('copyFe').mustRunAfter 'cleanFe'
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+

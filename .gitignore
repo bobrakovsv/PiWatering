@@ -1,0 +1,29 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+
+### Project ###
+/src/main/java/ru/bserg/watering/db/
+/db/wtrr.lock.db
+/db/wtrr.mv.db
+/db/wtrr.trace.db
+/src/main/resources/public/

@@ -1,0 +1,272 @@
+// Чтобы убрать скролл по вертикали на все окно
+html {
+  overflow: auto;
+}
+
+
+// -----------------------------------
+// Настройка Noty (всплывающие уведомления)
+// -----------------------------------
+@import '~noty/lib/noty.css';
+@import '~noty/lib/themes/mint.css';
+
+#noty_layout__topRight {
+  top: 10px;
+  right: 10px;
+  width: 525px;
+}
+
+#noty_layout__bottomRight {
+  bottom: 10px;
+  right: 10px;
+  width: 525px;
+}
+
+
+.noty_theme__mint.noty_bar .noty_body {
+  padding-top: 10px;
+  font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+.noty_theme__mint {
+  opacity: 0.9;
+}
+
+.noty_theme__mint.noty_type__info,
+.noty_theme__mint.noty_type__information {
+  background-color: var(--v-info-base);
+  color: #fff;
+}
+
+.noty_theme__mint.noty_type__success {
+  background-color: var(--v-success-base);
+  color: #fff;
+}
+
+.noty_theme__mint.noty_type__warning {
+  background-color: var(--v-warning-base);
+  color: #fff;
+}
+
+.noty_theme__mint.noty_type__error {
+  background-color: var(--v-error-base);
+  color: #fff;
+}
+
+.noty_close_button {
+  font-size: 25px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+}
+
+.noty_close_button:hover {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.noty-icon {
+  font-size: 30px;
+  padding-right: 10px;
+}
+
+.noty-title {
+  font-size: 20px;
+}
+
+.noty-text {
+  font-size: 14px;
+}
+
+.noty-details {
+  font-size: 10px;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+//
+//.notifications {
+//  z-index: 15000 !important;
+//}
+//
+//.v-menu__content {
+//  z-index: 2500 !important;
+//}
+//
+//.v-app-bar.v-app-bar--fixed {
+//  z-index: 199;
+//}
+//
+//.v-app-bar--fixed ~ main .v-app-bar--fixed {
+//  z-index: 180;
+//}
+//
+//.v-app-bar--fixed .v-btn {
+//  margin-bottom: 9px !important;
+//}
+//
+//.app-menu .v-icon {
+//  font-size: 20px !important;
+//}
+//
+//.app-menu .v-list-item__title {
+//  font-size: 14px !important;
+//}
+//
+///* Расстояние между иконкой и текстом в боковом меню*/
+//.app-menu .v-list-item__action {
+//  margin-right: 8px !important;
+//}
+//
+//
+/////////////////////////////////
+//// Боковое меню
+/////////////////////////////////
+//.v-navigation-drawer {
+//  z-index: 200 !important;
+//}
+//
+//.v-navigation-drawer .v-list-item__title {
+//  font-size: 14px !important;
+//}
+//
+//.v-navigation-drawer .v-icon {
+//  font-size: 20px !important;
+//}
+//
+///* Расстояние между иконкой и текстом в боковом меню*/
+//.v-navigation-drawer .v-list-item__action {
+//  margin-right: 8px !important;
+//}
+//
+//.v-navigation-drawer .v-list {
+//  padding-top: 0px !important;
+//}
+//
+//.v-navigation-drawer.v-navigation-drawer--mini-variant .v-list-item__action {
+//  margin-right: 0px !important;
+//}
+//
+//.v-navigation-drawer.v-navigation-drawer--mini-variant .v-list-item--link {
+//  padding: 0px 0px !important;
+//}
+//
+//
+/////////////////////////////////
+//
+//
+//.v-btn {
+//  margin: 3px 3px;
+//  letter-spacing: 0;
+//  text-transform: none;
+//}
+//
+//.v-application .v-content .v-btn {
+//  border: solid 1px #02020236 !important;
+//}
+//
+//
+//.v-text-field--filled > .v-input__control > .v-input__slot, .v-text-field--full-width > .v-input__control > .v-input__slot, .v-text-field--outlined > .v-input__control > .v-input__slot {
+//  -webkit-box-align: stretch;
+//  -ms-flex-align: stretch;
+//  align-items: stretch;
+//  min-height: 0px;
+//}
+//
+//.v-text-field.v-text-field--enclosed .v-input__append-inner, .v-text-field.v-text-field--enclosed .v-input__append-outer, .v-text-field.v-text-field--enclosed .v-input__prepend-inner, .v-text-field.v-text-field--enclosed .v-input__prepend-outer {
+//  margin-top: 3px;
+//}
+//
+//.v-text-field__details {
+//  min-height: 0px !important;
+//}
+//
+//.v-input.v-text-field {
+//  margin-top: 6px !important;
+//  margin-bottom: 6px !important;
+//}
+//
+//.v-input.v-text-field--outlined {
+//  margin-top: 7px !important;
+//  margin-bottom: 7px !important;
+//}
+//
+//.v-text-field input {
+//  padding: 3px 0px 3px 0px !important;
+//}
+//
+//.v-text-field--outlined input {
+//  padding: 8px 0px 3px 0px !important;
+//}
+//
+//.v-input__slot, .v-text-field__details {
+//  margin-bottom: 0px !important;
+//}
+//
+//.v-input__control .v-input__slot {
+//  padding-right: 3px !important;
+//}
+//
+//.v-input textarea {
+//  margin: 7px 12px 2px 0px !important;
+//  padding: 0px 12px 0px 0px !important;
+//}
+//
+//.v-input .v-select__selection {
+//  margin: 0px 4px 0px 0px !important;
+//  padding: 0px !important;
+//}
+//
+//.v-select__selections, .v-select__selections input {
+//  padding: 5px 0px 1px 0px !important;
+//}
+//
+//.v-input.v-input--checkbox, .v-btn {
+//  margin-top: 10px !important;
+//  margin-bottom: 0px !important;
+//}
+//
+//.row {
+//  margin: 0px;
+//}
+//
+//ul.v-breadcrumbs {
+//  padding-left: 0px;
+//}
+//
+//button.v-size--default {
+//  padding: 0px 10px !important;
+//}
+//
+//#router-view {
+//  padding: 7px 7px;
+//}
+//
+//// Первый тулбар
+//.v-toolbar__title {
+//  padding: 0px !important;
+//}
+//
+//
+//.v-menu__content {
+//  z-index: 225 !important;
+//}
+//
+//.v-overlay.v-overlay--active.theme--dark {
+//  z-index: 200 !important;
+//}
+//
+//// Все контейнеры без полей
+//.container {
+//  margin: 0px;
+//  padding: 0px;
+//}
+//
+//
+//
+//.v-input__slot label {
+//  margin-left: 7px !important;
+//}
+//

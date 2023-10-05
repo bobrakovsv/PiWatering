@@ -1,0 +1,11 @@
+[Unit]
+Description=Watering Server
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/wtr/wtr.sh
+
+[Install]
+WantedBy=multi-user.target
+
